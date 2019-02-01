@@ -1,25 +1,17 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Header from "./component/Header";
+import Footer from './component/Footer';
+import ProductItem from './component/product/ProductItem';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+          <Header/>
+          <ProductItem productName="iPhonX" unitPrice="40500" />
+          <ProductItem productName="iPadPro" unitPrice="30500" />
+          <ProductItem productName="iPadmini" unitPrice="40500" />
+          <Footer compeny="Prakasit.Crops" email="prakasitbm@gmail.com" />
       </div>
     );
   }
