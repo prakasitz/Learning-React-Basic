@@ -10,7 +10,9 @@ export default class ProductList extends Component {
                 product={product} 
                 key={product.productId} 
                 onAddOrder={this.props.onAddOrder} 
-                onDelProduct={this.props.onDelProduct} />
+                onDelProduct={this.props.onDelProduct}
+                onEditProduct={this.props.onEditProduct}
+                />
         ));
     }
 

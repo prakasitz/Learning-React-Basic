@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import Header from "../component/Header";
 import Monitor from '../component/monitor/Monitor';
 import Footer from '../component/Footer';
-import axios from 'axios';
+import { connect } from "react-redux"; // connect ไว้ใช้ เชื่อม react กับ redux เข้าด้วยกัน
+import { productsFetch } from "../actions";
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {products : ""};
-  }
-
   /*componentDidMount() {
     this.setState({products : [
       {productId: 1, productName: "สลัดผัก", unitPrice: "120", thumbnail: "/img/itemProducts/salad.jpg"},
@@ -28,21 +24,22 @@ class Home extends Component {
   }*/
 
   componentDidMount() {
-    axios.get("http://localhost:3001/productss").then(res => {
-      this.setState({ products: res.data })
-    })
-
+    this.props.productsFetch();
   }
 
   render() {
-    return (
+    return ( // state มันไม่มีแล้ว จึงใช้ props แทน
         <div className="Home">
           <Header/>
-          <Monitor products={this.state.products}/>
+          <Monitor products={this.props.products}/> 
           <Footer compeny="Prakasit.Crops" email="prakasitbm@gmail.com" />
         </div>
     );
   }
 }
 
-export default Home;
+function mapStateToProps({ products }) { //นี่ คือ state ใน store นะ  state react ลบไปแล้ว
+  return { products }; // ถ้า มันเหมือนกัน ใช้ deconstructor 
+}
+
+export default connect(mapStateToProps, { productsFetch })(Home);

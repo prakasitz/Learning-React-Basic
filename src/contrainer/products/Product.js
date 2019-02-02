@@ -2,34 +2,26 @@ import React, { Component } from 'react'
 import Header from "../../component/Header";
 import Footer from '../../component/Footer';
 import ProductList from '../../component/product/ProductList';
-import axios from 'axios';
-export default class Product extends Component {
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { productsFetch, productsDelete } from "../../actions";
+class Product extends Component {
     constructor(props) {
         super(props);
-        this.state = { products : null};
         this.delProduct = this.delProduct.bind(this);
+        this.editProduct = this.editProduct.bind(this);
     }
 
     componentDidMount() {
-        axios.get("http://localhost:3001/productss").then(
-            res => {
-                this.setState({products : res.data});
-            }
-        )
+       this.props.productsFetch();
     }
 
     delProduct(product) {
-        console.log("delProduct:",product.id);
-        axios.delete("http://localhost:3001/productss/"+product.id).then(
-            () => {
-                axios.get("http://localhost:3001/productss").then(
-                    res => {
-                        this.setState({ products: res.data});
-                    }
-                )
-            }
-        )
-        
+      this.props.productsDelete(product.id);
+    }
+
+    editProduct(product) {
+        this.props.history.push('products/edit/'+product.id);
     }
     
     render() {
@@ -42,11 +34,13 @@ export default class Product extends Component {
                         <h1>สินค้า</h1>
                     </div>
                     <div className="col-6">
-                        <button className="btn btn-success title float-right">เพิ่ม</button>
+                        <button className="btn btn-success title float-right" onClick={() => this.props.history.push("products/add")}>เพิ่ม</button>
                     </div>
                 </div>
-                <ProductList products={this.state.products}
+                <ProductList 
+                    products={this.props.products}
                     onDelProduct={this.delProduct} 
+                    onEditProduct={this.editProduct} 
                 />
            </div>
            <Footer compeny="Prakasit.Crops" email="prakasitbm@gmail.com" />
@@ -54,3 +48,9 @@ export default class Product extends Component {
       )
     }
 }
+
+function mapStateToProps({products}) {
+    return { products };
+}
+
+export default withRouter(connect(mapStateToProps, { productsFetch, productsDelete})(Product));

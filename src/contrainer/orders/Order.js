@@ -1,24 +1,17 @@
 import React, { Component } from 'react'
 import Header from "../../component/Header";
 import Footer from "../../component/Footer";
-import Axios from 'axios';
-export default class Order extends Component {
+import { connect } from "react-redux"; // connect ไว้ใช้ เชื่อม react กับ redux เข้าด้วยกัน
+import { ordersFetch, ordersDelete } from "../../actions";
 
-    constructor(props) {
-        super(props);
-        this.state = { orders : null};
-    }
+class Order extends Component {
 
     componentDidMount() {
-        Axios.get("http://localhost:3001/orders").then(
-            res => {
-                this.setState({orders: res.data});
-            }
-        )
+        this.props.ordersFetch();
     }
 
     showOrders() {
-        return this.state.orders && this.state.orders.map(order => {
+        return this.props.orders && this.props.orders.map(order => {
             const date = new Date(order.orderedDate);
             return (
                 <div key={order.id} className="col-md-3">
@@ -45,15 +38,7 @@ export default class Order extends Component {
     }
 
     delOrder(order) {
-        Axios.delete("http://localhost:3001/orders/"+order.id).then(
-            res => {
-                Axios.get("http://localhost:3001/orders").then(
-                    res => {
-                        this.setState({ orders: res.data});
-                    }
-                )
-            }
-        )
+        this.props.ordersDelete(order.id);
     }
 
   render() {
@@ -72,3 +57,9 @@ export default class Order extends Component {
     )
   }
 }
+
+function mapStateToProps({orders}) {
+    return {orders};
+}
+
+export default connect(mapStateToProps, { ordersFetch, ordersDelete})(Order);
