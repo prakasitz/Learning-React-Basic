@@ -28,7 +28,7 @@ class Home extends Component {
   }*/
 
   componentDidMount() {
-    axios.get("http://localhost:3001/products").then(res => {
+    axios.get("http://localhost:3001/productss").then(res => {
       this.setState({ products: res.data })
     })
 

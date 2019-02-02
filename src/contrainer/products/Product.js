@@ -11,7 +11,7 @@ export default class Product extends Component {
     }
 
     componentDidMount() {
-        axios.get("http://localhost:3001/products").then(
+        axios.get("http://localhost:3001/productss").then(
             res => {
                 this.setState({products : res.data});
             }
@@ -19,15 +19,17 @@ export default class Product extends Component {
     }
 
     delProduct(product) {
-        axios.delete("http://localhost:3001/products/"+product.id).then(
+        console.log("delProduct:",product.id);
+        axios.delete("http://localhost:3001/productss/"+product.id).then(
             () => {
-                axios.get("http://localhost:3001/products").then(
+                axios.get("http://localhost:3001/productss").then(
                     res => {
                         this.setState({ products: res.data});
                     }
                 )
             }
         )
+        
     }
     
     render() {
