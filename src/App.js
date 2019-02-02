@@ -1,19 +1,31 @@
+import './App.css';
 import React, { Component } from 'react';
-import Header from "./component/Header";
-import Footer from './component/Footer';
-import ProductItem from './component/product/ProductItem';
+import { BrowserRouter as Router, Route , Switch } from "react-router-dom";
+import Home from "./contrainer/Home";
+import About from "./contrainer/About";
+import Order from "./contrainer/orders/Order";
+import Product from "./contrainer/products/Product";
+
+//ต้องทำให้มันใส่ตัว browser router และ switch ได้
 
 class App extends Component {
+  renderRouter() {
+    return (
+      <Switch>
+          <Route exact path="/" component={Home} /> 
+          <Route exact path="/about" component={About} /> 
+          <Route exact path="/orders" component={Order} /> 
+          <Route exact path="/products" component={Product} /> 
+      </Switch>
+    );
+  }
+
   render() {
     return (
-      <div className="App">
-          <Header/>
-          <ProductItem productName="iPhonX" unitPrice="40500" />
-          <ProductItem productName="iPadPro" unitPrice="30500" />
-          <ProductItem productName="iPadmini" unitPrice="40500" />
-          <Footer compeny="Prakasit.Crops" email="prakasitbm@gmail.com" />
-      </div>
-    );
+      <Router>
+        {this.renderRouter()}
+      </Router>
+    )
   }
 }
 
