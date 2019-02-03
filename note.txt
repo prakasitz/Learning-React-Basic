@@ -1,0 +1,31 @@
+ขั้นตอนการติดตั้ง redux
+redux มี store , action , reducer
+1. ติดตั้ง store ให้กับ react ใน index.js (main) 
+    โดยใช้ method createStore(reducers, {ค่า state เริ่มต้น}, applyMiddleware(reduxThunk) <= ไว้เพิ่มความสามารถให้ตัว redux) 
+2. จะได้ store มา ให้ติดตั้ง โดย ใช้ Provider store={store} > App <
+3. ประกาศ+สร้าง reducers สำหรับรับ action เพื่อเปลี่ยนแปลงค่าใน store (ค่าใน store เรียกว่า state)
+    3.1 reducers สามารถมีได้มากว่า 1 เพื่อไว้จัดการค่าใน state แต่ละค่า จากนั้น เราใช้ combineReducers เพื่อให้มันรวมกัน
+     (ต่อ) จากนั้น นำไปใส่ไว้ใน store ใน method createStore
+    3.2 เมื่อสร้าง reducers เสร็จ ก็ให้เขียนรายละเอียดของ reducer แต่ละตัว / คนละไฟล์
+     (ต่อ) เช่นเวลาส่ง action เข้ามา ก็ดูว่าเป็น type ไหน แล้วจะทำอะไรกับมัน
+    3.3 # action ที่ถูกส่งมานั้น จะมาจาก Action 
+4. ดูที่ Action ประกาศ method ของ Action นั้นๆว่าต้องการทำไรบ้าง เช่น ลบ แก้ไข เพิ่ม ดึงข้อมูล
+    4.1 ถ้ามีการกระทำใดๆกับข้อมูล สิ่งๆนั้นจะถูกส่งมาแบบ callBack ต้องใช้ dispatch ในการรอค่ากลับมา
+     (ต่อ) ซึ่ง method ที่ไว้สร้าง action นั้นจะถูกเรียกโดย component เพื่อที่จะส่ action ไปหา reducers
+    4.2 รวม action ไว้ด้วยกัน เวลาเรียกจะได้เรียกง่ายๆ
+5 ไปที่ component ให้ import ตัว action เพื่อเอามาใช้ และที่สำคัญ import connect เพื่อ link react และ redux
+    5.1 การ connect จะรับ func และ ตัว action ที่ต้องการใช้ใน component นั้นๆ เขียนติดกันใน export default
+    5.2 func ที่ป้อนให้ connect เอาไว้ใช้ ดึงค่า state ที่อยู่ใน store // read-only
+        (ต่อ) เพื่อที่จะได้เอามาส่งให้กับ props ใน component และ เช่นเดียวกับ action ที่ถูกป้อน
+        (ต่อ) ก็จะถูก connect นี้ map ไปเป็น props และเราสามารถเรียกผ่าน this.props.action() ได้เลย
+6. พอเรียก action จาก หน้า component มันจะวิ่งไปที่ ไฟล์ Action นั้นๆ และเรียกตัว medthod ที่เราเรียก
+    6.1 จากนั้น medthod นั้นก็จะทำงาน (จะดึง ลบ บลาๆ ข้อมูล) 
+    6.2 พอเสร็จจากการทำงาน ก็จะ set ไว้ในตัว payload ส่งไปพร้อมกับ type ของ action ไปหา reducers
+    6.3 และ!!! reducer ก็จะเช็ก type แล้วก็ set ค่าให้ state ใน store ใหม่
+    6.4 ตัว reducer จะไม่รู้หรอกว่าจะเข้าตัวไหน มันจะเข้าตามลำดับ เพราะฉะนั้น เราเลยใช้ switch ในการเลือกโดยผ่าน type
+        (ต่อ) ถ้ามันเช็กแล้วมันไม่มี type ของมัน มันก็จะส่งค่าเก่าเข้าไป แต่ถ้า type เดียวกัน ก็จะ update state  
+        (ต่อ) พอเปลี่ยนแปลงค่าเสร็จ มันจะวิ่งไปบอก component ให้ render ใหม่ ในการแสดงผล
+
+---------------------------ยากชิบหาย--------------------------------------
+
+    

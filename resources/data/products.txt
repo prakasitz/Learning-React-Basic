@@ -1,0 +1,9 @@
+[
+    {productId: 1, productName: "สลัดผัก", unitPrice: "120", thumbnail: "/img/salad.jpg"},
+    {productId: 2, productName: "ไก่ทอด", unitPrice: "290", thumbnail: "/img/chickenfide.jpg"},
+    {productId: 3, productName: "บิงซู", unitPrice: "150", thumbnail: "/img/bingshu.jpg"},
+    {productId: 4, productName: "เฟรนฟราย", unitPrice: "80", thumbnail: "/img/frenchfries.jpg"},
+    {productId: 5, productName: "เค้ก 3 ชั้น", unitPrice: "220", thumbnail: "/img/cake3floor.jpg"},
+    {productId: 6, productName: "กาแฟ เฮลตี้ฟู้ด", unitPrice: "140", thumbnail: "/img/coffee.jpg"},
+    
+]
